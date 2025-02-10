@@ -1,0 +1,24 @@
+apiVersion: v1alpha1
+kind: Fleet
+metadata:
+  name: eu-east-prod-001
+spec:
+  selector:
+    matchLabels:
+      fleet: eu-east-prod-001
+  template:
+    spec:
+      os:
+        image: quay.io/solar-farms/ai-inverter:1.5.0
+
+      config:
+        - name: example-server-a
+          gitRef:
+            repository: default-repo
+            targetRevision: main
+            path: /inverter-fleet/deployment-manifests/
+
+      systemd:
+       matchPatterns:
+        - inverter.service
+        - rs485-protocol.service
